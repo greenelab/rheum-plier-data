@@ -21,7 +21,7 @@ mart <- biomaRt::useDataset("hsapiens_gene_ensembl", biomaRt::useMart("ensembl")
 genes <- unlist(lapply(strsplit(rpkm$id, "[.]"), `[[`, 1))
 rpkm$ensembl_gene_id <- unlist(lapply(strsplit(rpkm$id, "[.]"), `[[`, 1))
 gene.list <- biomaRt::getBM(filters = "ensembl_gene_id",
-		attributes= c("ensembl_gene_id", "hgnc_symbol"),
+		attributes = c("ensembl_gene_id", "hgnc_symbol"),
 		values = genes, mart = mart)
 gene.list <- gene.list[gene.list$hgnc_symbol != "", ]
 
