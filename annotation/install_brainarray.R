@@ -34,9 +34,9 @@ InstallBrainarray <- function(platform, org.code, ba.version) {
 
 	# cdf version for use with affy::RMA
 	cdf.pkg.name <- paste0(platform, org.code, "entrezgcdf_",
-						      	     ba.version, ".tar.gz")
+	                       ba.version, ".tar.gz")
 	cdf.url <- paste0("http://mbni.org/customcdf/", ba.version, 
-										"/entrezg.download/", cdf.pkg.name)
+	                  "/entrezg.download/", cdf.pkg.name)
 	devtools::install_url(cdf.url)
 
 }
