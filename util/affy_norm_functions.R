@@ -5,11 +5,12 @@ AffyMultiNormWrapper <- function(cel.dir, output.file.lead,
   # This function is a wrapper for multiple normalization methods to be used 
   # to process raw Affymetrix data (CEL files). It takes as arguments the 
   # the directory that contains the CEL files and a "file lead" (including path
-  # information) for the output of the 
-  # -- the platform and normalization method will be appended to 
-  # All CEL files from a single platform within a directory will be processed
-  # together (this is more pertinent for RMA, a multi-array normalization) 
-  # method.
+  # information) for the output of the function. The platform and normalization 
+  # method will be appended to the "file lead." All CEL files from a single 
+  # platform within a directory will be processed together. (This is more 
+  # pertinent for RMA, a multi-array normalization method.) 
+  # SCANfast is a fast version of SCAN that uses a smaller number of probes. See
+  # the SCAN.UPC primer for more information.
   #
   # Args:
   #   cel.dir: path to directory that contains CEL files
