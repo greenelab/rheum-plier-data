@@ -32,6 +32,9 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
+# .Rdata files of all recount samples are too large to put on the github
+recount.rpkm.RData
+recount.all.data.plier.RData
+
 # Ignore hidden metadata files
 ._*
-
