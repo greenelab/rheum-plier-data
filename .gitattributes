@@ -1,0 +1,2 @@
+*.CEL filter=lfs diff=lfs merge=lfs -text
+*.cel filter=lfs diff=lfs merge=lfs -text
