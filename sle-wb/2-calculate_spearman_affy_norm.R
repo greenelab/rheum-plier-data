@@ -15,8 +15,9 @@ dir.create(png.output.path, recursive = TRUE)
 
 #### functions -----------------------------------------------------------------
 
-CompareSampleCorrelation <- function(first.data.frame, second.data.frame) {
-  # This function calculates the Spearman correlation coefficient on a per
+CompareSampleCorrelation <- function(first.data.frame, second.data.frame,
+                                     cor.mthd = "spearman") {
+  # This function calculates the specified correlation coefficient on a per
   # sample (per array) basis between the two data.frames supplied as arguments.
   # 
   # Args:
@@ -26,9 +27,11 @@ CompareSampleCorrelation <- function(first.data.frame, second.data.frame) {
   #   second.data.frame: a data.frame of processed/normalized expression data
   #                      where genes are rows and columns are samples; the first
   #                      column should contain gene identifiers
+  #   cor.mthd: method to be supplied to cor() (see cor documentation for 
+  #             more details); default is "spearman"
   #
   # Returns:
-  #   correlation.vector: a vector of Spearman correlation coefficients, for
+  #   correlation.vector: a vector of correlation coefficients, for
   #                       each sample
   
   ## Error-handling ##
@@ -47,26 +50,19 @@ CompareSampleCorrelation <- function(first.data.frame, second.data.frame) {
          gene identifiers (probes)")
   }
   
-  # initialize vector to hold Spearman
-  correlation.vector <- vector()
-  # for all sample columns (excluding the first column which contains gene
-  # identifiers)
-  for (col.iter in 2:ncol(first.data.frame)) {
-    correlation.vector[(col.iter - 1)] <- 
-      cor(first.data.frame[, col.iter], 
-          second.data.frame[, col.iter],
-          method = "spearman")
-  }
+  cor.mat <- cor(as.matrix(first.data.frame[, 2:ncol(first.data.frame)]),
+                 as.matrix(second.data.frame[, 2:ncol(second.data.frame)]),
+                 method = cor.mthd)
   
-  # return Spearman values
-  return(correlation.vector)
+  return(as.vector(diag(cor.mat)))
   
 }
 
-CompareSamplesPlotWrapper <- function(processed.dir, png.lead) {
-  # This function is a wrapper for calculating Spearman correlations between
+CompareSamplesPlotWrapper <- function(processed.dir, png.lead,
+                                      cor.method = "spearman") {
+  # This function is a wrapper for calculating correlations between
   # gene expression data processed with different normalization methods; also 
-  # outputs .pngs of density plots of the Spearman coefficients
+  # outputs .pngs of density plots of the correlation coefficients
   # 
   # Args:
   #   processed.dir: path to processed PCL files directory (1 each: RMA, SCAN, 
@@ -75,6 +71,8 @@ CompareSamplesPlotWrapper <- function(processed.dir, png.lead) {
   #             of normalization will be appended to the file name
   #             example: "path/to/plot/E-GEOD-123XX" ->
   #                      "path/to/plot/E-GEOD-123XX_hgu133a_SCAN_v_SCANfast.png"
+  #   cor.method: method to be supplied to cor() (see cor documentation for 
+  #             more details); default is "spearman"
   #   
   # Returns:
   #   NULL - outputs png files (number of unique platforms) * 2 comparisons
@@ -127,34 +125,37 @@ CompareSamplesPlotWrapper <- function(processed.dir, png.lead) {
     # number of assays 
     n.assays <- dim(dplyr::select(pcl.list$rma, -Gene))[2]
     
-    # initialize list to hold comparisons (Spearman)
+    # initialize list to hold comparisons (correlation)
     compare.list <- list()
     
-    ### comparisons (Spearman) ###
+    ### comparisons ###
     # RMA v. SCAN
     compare.list$rma.v.scan <- 
       as.data.frame(cbind(CompareSampleCorrelation(pcl.list$rma, 
-                                                   pcl.list$scan), 
+                                                   pcl.list$scan,
+                                                   cor.mthd = cor.method), 
             rep("RMA v. SCAN", n.assays)))
     # RMA v. SCANfast
     compare.list$rma.v.scanfast <- 
       as.data.frame(cbind(CompareSampleCorrelation(pcl.list$rma, 
-                                                   pcl.list$scan.fast), 
+                                                   pcl.list$scan.fast,
+                                                   cor.mthd = cor.method), 
                     rep("RMA v. SCANfast", n.assays)))
     # SCAN v. SCANfast
     compare.list$scan.v.scanfast <- 
       as.data.frame(cbind(CompareSampleCorrelation(pcl.list$scan, 
-                                                   pcl.list$scan.fast), 
+                                                   pcl.list$scan.fast,
+                                                   cor.mthd = cor.method), 
                     rep("SCAN v. SCANfast", n.assays)))
 
     # rbind list of data.frames -- to be used to plot
     compare.df <- data.table::rbindlist(compare.list)
-    colnames(compare.df) <- c("Spearman.coef", "Norm.compare")
+    colnames(compare.df) <- c("Corr.coef", "Norm.compare")
       
-    # get spearman coefficients as numeric
-    if (class(compare.df$Spearman.coef) != "numeric") {
-      compare.df$Spearman.coef <- 
-        as.numeric(as.character(compare.df$Spearman.coef))
+    # get correlation coefficients as numeric
+    if (class(compare.df$Corr.coef) != "numeric") {
+      compare.df$Corr.coef <- 
+        as.numeric(as.character(compare.df$Corr.coef))
     }
     
     ### plotting ###
@@ -166,11 +167,11 @@ CompareSamplesPlotWrapper <- function(processed.dir, png.lead) {
     rma.png.file <- paste0(png.lead, "_", plt, "_RMA_v_SCAN.png")
     ggplot2::ggplot(dplyr::filter(compare.df, 
                                   Norm.compare != "SCAN v. SCANfast"), 
-                    ggplot2::aes(x = Spearman.coef)) + 
+                    ggplot2::aes(x = Corr.coef)) + 
       ggplot2::geom_density() +  
       ggplot2::facet_grid(~ Norm.compare) + 
       ggplot2::theme_bw() +
-      ggplot2::labs(x = "Sample Spearman correlation")
+      ggplot2::labs(x = paste("Sample", cor.method, "correlation"))
     ggplot2::ggsave(filename = rma.png.file,
                     plot = ggplot2::last_plot(),
                     width = 7,
@@ -180,11 +181,11 @@ CompareSamplesPlotWrapper <- function(processed.dir, png.lead) {
     scan.png.file <- paste0(png.lead, "_", plt, "_SCAN_v_SCANfast.png")
     ggplot2::ggplot(dplyr::filter(compare.df, 
                                   Norm.compare == "SCAN v. SCANfast"), 
-                    ggplot2::aes(x = Spearman.coef)) + 
+                    ggplot2::aes(x = Corr.coef)) + 
       ggplot2::geom_density() +  
       ggplot2::facet_grid(~ Norm.compare) + 
       ggplot2::theme_bw() +
-      ggplot2::labs(x = "Sample Spearman correlation")
+      ggplot2::labs(x = paste("Sample", cor.method, "correlation"))
     ggplot2::ggsave(filename = scan.png.file,
                     plot = ggplot2::last_plot(),
                     width = 3.5,
