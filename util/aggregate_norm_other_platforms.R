@@ -59,32 +59,8 @@ PrepExpressionDF <- function(exprs){
   
 }
 
-GetCombinedDF <- function(list.of.df) {
-  # Concatenate a list of data.frames, return a data of expression data
-  # where the first column that contains the gene identifiers
-  # 
-  # Args:
-  #   list.of.df: a list of data.frames of gene expression data, rows are
-  #               genes, columns are samples/arrays; first column ("Gene"),
-  #               contains gene identifiers
-  #               
-  # Returns:
-  #   a combined expression data.frame, with gene identifiers as first column
-  #   
-  
-  combined.df <- do.call(base::cbind, c(list.of.df, by = "Gene"))
-  cols.to.rm <- c(which(colnames(combined.df) == 
-                          "Gene")[2:length(list.of.df)], 
-                  ncol(combined.df))
-  combined.df <- combined.df[, -cols.to.rm]  
-  return(combined.df)
-  
-}
-
-# set missing values to zero
-NAToZero <- function(dt, un = 0) suppressWarnings(gdata::NAToUnknown(dt, un))
-
-GetCombinedMatrix <- function(list.of.df) {
+GetCombinedDataset <- function(list.of.df, return.class = "data.frame",
+                               join.type = "inner") {
   # Concatenate a list of data.frames, return a matrix of expression data
   # without the first column that contains the gene identifiers
   # 
@@ -92,23 +68,45 @@ GetCombinedMatrix <- function(list.of.df) {
   #   list.of.df: a list of data.frames of gene expression data, rows are
   #               genes, columns are samples/arrays; first column ("Gene"),
   #               contains gene identifiers
+  #   return.class: what class of object should be returned? options are
+  #                 data.frame or matrix (if matrix, NA will be set to 0)
+  #   join.type: what type of join should be used in plyr::join_all()?
+  #              options are inner (default), right, left, or full
+  #              see plyr documentation for more information
   #               
   # Returns:
-  #   a combined expression matrix, with gene identifiers as rownames, rather
-  #    than the first column -- suitable for principal components
+  #   a combined expression data set
+  #     if return.class = "data.frame": a data.frame where the first column
+  #       contains gene identifers will be returned
+  #     if return.class = "matrix": the rownames will contain the gene 
+  #       gene identifier information
   
-  combined.df <- plyr::join_all(list.of.df, by = "Gene", type = "inner")
-  rownames(combined.df) <- combined.df$Gene
-  combined.df <- dplyr::select(combined.df, -Gene)
+  combined.df <- plyr::join_all(list.of.df, by = "Gene", type = join.type)
   
-  # any missing values? set to zero
-  if (any(is.na(combined.df))) {
-    combined.df <- NAToZero(combined.df)
+  if (return.class == "data.frame") {
+    return(combined.df)
+  } else if (return.class == "matrix") {
+    
+    rownames(combined.df) <- combined.df$Gene
+    combined.df <- dplyr::select(combined.df, -Gene)
+    
+    # any missing values? set to zero
+    if (any(is.na(combined.df))) {
+      combined.df <- NAToZero(combined.df)
+    }
+    
+    return(as.matrix(combined.df))
+  
+  } else {
+    stop("Accepted arguments for return.class are data.frame or matrix")
   }
   
-  return(as.matrix(combined.df))
-  
 }
+
+
+# set missing values to zero
+NAToZero <- function(dt, un = 0) suppressWarnings(gdata::NAToUnknown(dt, un))
+
 
 ZTOProcessing <- function(list.of.df, before = TRUE) {
   # This function is for the [0, 1] scaling of a list of expression data.frames.
