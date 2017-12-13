@@ -118,7 +118,7 @@ combat.scatter <-
   ggplot2::ggtitle("ComBat Adjustment", subtitle = "Disease as covariate")
 
 # get scatterplots on same plot
-pdf(file.path("plots", "NARES_PC_scatter_with_batch_correct.pdf"),
+pdf(file.path("NARES", "NARES_PC_scatter_with_batch_correct.pdf"),
     width = 11, height = 4.25)
 gridExtra::grid.arrange(no.adjust.scatter, combat.scatter, ncol = 2)
 dev.off()
