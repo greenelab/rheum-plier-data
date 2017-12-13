@@ -197,5 +197,5 @@ CompareSamplesPlotWrapper <- function(processed.dir, png.lead) {
 #### main ----------------------------------------------------------------------
 
 CompareSamplesPlotWrapper(processed.dir = pcl.dir,
-						  png.lead = file.path(png.output.path, 
-						  					   "SLE-WB_affy_norm_correlation"))
+                          png.lead = file.path(png.output.path, 
+                                               "SLE-WB_affy_norm_correlation"))
