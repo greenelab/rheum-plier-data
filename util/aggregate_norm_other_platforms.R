@@ -282,9 +282,7 @@ ReformatSubmitterProcessedData <- function(processed.dir, output.file) {
   smpl.names <- gsub(".*/", "", names(processed.list))
   smpl.names <- gsub("_.*", "", smpl.names)
   colnames(processed.df)[2:ncol(processed.df)] <- smpl.names
-  # remove list
-  rm(processed.list)
-  
+
   # write to file
   write.table(processed.df, file = output.file, quote = FALSE, sep = "\t",
               row.names = FALSE)
