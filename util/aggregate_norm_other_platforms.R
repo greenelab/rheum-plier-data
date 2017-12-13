@@ -351,6 +351,9 @@ QNwithRef <- function(ref.df, target.df) {
   #   qn.targ.df: the quantile normalized target.df gene expression data
   #   
   
+  # magrittr pipe
+  `%>%` <- dplyr::`%>%`
+  
   # error-handling
   if ((base::colnames(ref.df)[1] != "Gene") | 
       (base::colnames(target.df)[1] != "Gene")) {
@@ -369,17 +372,16 @@ QNwithRef <- function(ref.df, target.df) {
   # if the number of genes is (subjectively) low
   cat(paste("\nNumber of overlapping genes:", length(overlap.genes)))
   
-  # filter expression data.frames to just overlapping genes 
-  ref.df <- dplyr::filter(ref.df, Gene %in% overlap.genes)
-  target.df <- dplyr::filter(target.df, Gene %in% overlap.genes)
- 
-  # make both Gene columns character
-  ref.df$Gene <- as.character(ref.df$Gene)
-  target.df$Gene <- as.character(target.df$Gene)
+  # filter expression data.frames to just overlapping genes + order them
+  ref.df <- ref.df %>%
+    dplyr::filter(Gene %in% overlap.genes) %>%
+    dplyr::mutate(Gene = as.character(Gene)) %>%
+    dplyr::arrange(Gene)
   
-  # order by gene
-  ref.df <- ref.df[order(ref.df$Gene), ]
-  target.df <- target.df[order(target.df$Gene), ]
+  target.df <- target.df %>%
+    dplyr::filter(Gene %in% overlap.genes) %>%
+    dplyr::mutate(Gene = as.character(Gene)) %>%
+    dplyr::arrange(Gene)
   
   if (!all.equal(ref.df$Gene, target.df$Gene)) {
     stop("Something went wrong: ref.df$Gene, target.df$Gene are not equal")
