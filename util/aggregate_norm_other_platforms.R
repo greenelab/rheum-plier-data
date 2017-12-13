@@ -146,17 +146,19 @@ ZTOProcessing <- function(list.of.df, before = TRUE) {
     list.of.zto <- lapply(list.of.dt, 
                           function(x) TDM::zero_to_one_transform(x))
     
-    # convert back to data.frame for use with GetCombinedMatrix
+    # convert back to data.frame for use with GetCombinedDataset
     list.of.zto <- lapply(list.of.zto,
                           function(x) as.data.frame(x))
     
     # get concatenated (combined) expression matrix
-    exprs.mat <- GetCombinedMatrix(list.of.zto)
+    exprs.mat <- GetCombinedDataset(list.of.zto,
+                                    return.class = "matrix")
     
   } else {
     
     # concatenate
-    combined.mat <- GetCombinedMatrix(list.of.df = list.of.df)
+    combined.mat <- GetCombinedDataset(list.of.df = list.of.df,
+                                       return.class = "matrix")
     # convert to data.table
     combined.dt <- data.table::data.table(rownames(combined.mat), 
                                           combined.mat)
@@ -194,7 +196,8 @@ CombineDatasets <- function(list.of.pcl.files, UPC = FALSE) {
   # internal function
   UPCGenericProcessing <- function(list.of.data.frames) {
     # UPC Generic processing of combined data
-    combined.mat <- GetCombinedMatrix(list.of.df = list.of.data.frames)
+    combined.mat <- GetCombinedDataset(list.of.df = list.of.data.frames,
+                                       return.class = "matrix")
     
     upc.mat <- apply(combined.mat, 2, function(x) SCAN.UPC::UPC_Generic(x))
     rownames(upc.mat) <- rownames(combined.mat)
@@ -208,7 +211,8 @@ CombineDatasets <- function(list.of.pcl.files, UPC = FALSE) {
   # initialize master list to hold all transformed data
   master.list <- list()
   # without transformation s.t. values fall [0, 1]
-  master.list[["no.transform"]] <- GetCombinedMatrix(list.of.df = pcl.list)
+  master.list[["no.transform"]] <- GetCombinedDataset(list.of.df = pcl.list,
+                                                      return.class = "matrix")
   
   # zero to one transform before combining data
   master.list[["zto.before"]] <- ZTOProcessing(list.of.df = pcl.list,
