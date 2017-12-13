@@ -1,10 +1,12 @@
 # J. Taroni 2017
 
-PlotPCA <- function(exprs.mat, group.vector, png.filename) {
+PlotPCA <- function(exprs.mat, group.vector, png.filename, 
+                    pcs.to.viz = 1:5) {
   # This function takes an expression matrix, information regarding the
   # dataset of origin for each array (group.vector), and a .png filename and
-  # outputs a "pairs" plot of Principal Components 1-5 and a .tsv that contains
-  # information about the cumulative variance explained for PC1-5
+  # outputs a "pairs" plot of Principal Components specified with
+  # pcs.to.viz and a .tsv that contains information about the cumulative 
+  # variance 
   # 
   # Args:
   #   exprs.mat: a matrix of expression data (gene ids as rownames, not 
@@ -12,6 +14,8 @@ PlotPCA <- function(exprs.mat, group.vector, png.filename) {
   #   group.vector: a vector of integers that indicate what data set each array/
   #                 sample came from
   #   png.filename: filename for .png output (including path information)
+  #   pcs.to.viz: a vector of integers specifying the PCs that should
+  #               be visualized (1:5 by default)
   #   
   # Returns:
   #   NULL - outputs a .png (pairs plot) and .tsv (cumulative variance 
@@ -24,14 +28,14 @@ PlotPCA <- function(exprs.mat, group.vector, png.filename) {
   # perform PCA
   pc <- prcomp(t(exprs.mat))
   
-  # save PNG of "paired" plot, PC1-5
+  # save PNG of "paired" plot, specified PCs
   png(file = png.filename)
-  pairs(pc$x[, 1:5], col = cb.palette[group.vector])
+  pairs(pc$x[, pcs.to.viz], col = cb.palette[group.vector])
   dev.off()
   
-  # what is the cumulative variance explained by PC1-5?
-  cumvar.df <- as.data.frame(cumsum(pc$sdev^2 / sum(pc$sdev^2))[1:5])
-  cumvar.df <- cbind(colnames(pc$x)[1:5], cumvar.df)
+  # what is the cumulative variance explained by PCs?
+  cumvar.df <- as.data.frame(cumsum(pc$sdev^2 / sum(pc$sdev^2))[pcs.to.viz])
+  cumvar.df <- cbind(colnames(pc$x)[pcs.to.viz], cumvar.df)
   colnames(cumvar.df) <- c("Principal Component", 
                            "cumulative variance explained")
   # write cum variance info to file
@@ -41,7 +45,8 @@ PlotPCA <- function(exprs.mat, group.vector, png.filename) {
   
 }
 
-PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead) {
+PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead,
+                       pcs.to.plot = 1:5) {
   # A wrapper function for combining datasets and ultimately PCA plots -- 
   # motivated by the fact that multiple normalization methods will be under
   # consideration.
@@ -49,7 +54,9 @@ PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead) {
   # Args:
   #   list.of.pcl: a list of pcl files (should be from one normalization method)
   #   UPC.arg: logical - should UPC generic processing be performed?
-  #   png.file.lead: .png "file lead" for PC1-5 pairs plot (includes path info)
+  #   png.file.lead: .png "file lead" for PC pairs plot (includes path info)
+  #   pcs.to.plot: a vector of integers specifying the PCs that should
+  #                be visualized (1:5 by default)
   #   
   # Returns:
   #   NULL - outputs a .png (pairs plot) and .tsv (cumulative variance 
@@ -70,7 +77,8 @@ PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead) {
     # plot PC1-5 "paired"
     PlotPCA(exprs.mat = combined.list$expression.matrices[[exprs.iter]],
             group.vector = combined.list$groups,
-            png.filename = png.transform.file)
+            png.filename = png.transform.file,
+            pcs.to.viz = pcs.to.plot)
     
   }
   
