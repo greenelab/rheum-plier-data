@@ -80,21 +80,23 @@ select.cols <- c("Source.Name", "Hybridization.Name", "Array.Design.REF" ,
                  "Array.Data.File")
 sample.meta.df <- dplyr::select_(sample.rel.df, .dots = select.cols)
 
-# add a column that holds disease state information -- we only want healthy 
-# and SLE
-sample.meta.df$Disease.state <- rep(NA, nrow(sample.meta.df))
-sample.meta.df$Disease.state[grep("SLE", sample.meta.df$Hybridization.Name)] <-
-  "SLE"
-
 # healthy identifiers
 healthy.ids <- c("H 27", "H 28", "H 30", "H 36", "H 37", "H 45", "H 46")
-sample.meta.df$Disease.state[grep(paste(healthy.ids, collapse = "|"), 
-                                  sample.meta.df$Hybridization.Name)] <-
-  "Control"
-sample.meta.df$Disease.state[grep(paste(sub(" ", "", healthy.ids), 
-                                        collapse = "|"), 
-                                  sample.meta.df$Hybridization.Name)] <-
-  "Control"
+
+# add a column that holds disease state information -- we only want healthy 
+# and SLE
+sample.meta.df <- 
+  sample.meta.df %>%
+  dplyr::mutate(Disease.state = rep(NA, nrow(sample.meta.df))) %>%
+  dplyr::mutate(Disease.state 
+                = dplyr::case_when(
+                  grepl("SLE", sample.meta.df$Hybridization.Name) ~ "SLE",
+                  grepl(paste(healthy.ids, collapse = "|"), 
+                        sample.meta.df$Hybridization.Name) ~ "Control",
+                  grepl(paste(sub(" ", "", healthy.ids), 
+                              collapse = "|"), 
+                        sample.meta.df$Hybridization.Name) ~ "Control"
+                ))
 
 # filter to only the relevant disease states
 sle.meta.df <- dplyr::filter(sample.meta.df, !is.na(Disease.state))
