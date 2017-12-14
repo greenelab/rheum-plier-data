@@ -43,8 +43,13 @@ JoinAandBDF <- function(a.colname, a.df, b.colname, b.df, sample.id) {
   #   b.df: a data.frame of gene expression data, rows are genes, samples are
   #         columns, the first column contains gene identifiers and is named
   #         "Gene"
-  #   
+  #   sample.id: the sample identifier (from the E-GEOD-11907 metadata)
   #
+  # Returns: 
+  #   agg.df: a data.frame with the gene identifiers and sample expression
+  #           values in the first and second columns respectively -- this 
+  #           data.frame contains the values from both platforms following
+  #           row binding 
   #
   # get A sample, include gene identifiers
   a.single.df <- dplyr::select_(a.df, .dots = c("Gene", a.colname))
