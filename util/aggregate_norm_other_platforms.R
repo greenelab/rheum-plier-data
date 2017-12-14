@@ -52,7 +52,7 @@ PrepExpressionDF <- function(exprs){
   # for duplicate gene identifiers, take the average
   exprs.agg <- exprs %>%
     group_by(Gene) %>%
-    summarise_each(funs(mean(., na.rm = TRUE)))
+    summarise_all(function(x) mean(x, na.rm = TRUE))
   
   # return aggregated expression data.frame
   return(exprs.agg)
