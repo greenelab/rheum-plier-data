@@ -34,13 +34,14 @@ for (fl in c(plus2.files, agg.ab.file)) {
 #### aggregation ---------------------------------------------------------------
 
 # combine HGU133plus2 data
-plus2.df <- GetCombinedDataset(pcl.list[1:3], 
+plus2.df <- GetCombinedDataset(pcl.list[1:length(plus2.files)], 
                                return.class = "data.frame",
                                join.type = "inner")
 
 # join -- only want genes represented on concatenated HGU133A 
 # + HGU133B and HGU133plus2 -- only 6 genes from A+B are lost this way currently
-all.agg.df <- dplyr::inner_join(pcl.list[[4]], plus2.df, by = "Gene")
+all.agg.df <- dplyr::inner_join(pcl.list[[length(plus2.files) + 1]], 
+                                plus2.df, by = "Gene")
 
 #### write to file -------------------------------------------------------------
 
