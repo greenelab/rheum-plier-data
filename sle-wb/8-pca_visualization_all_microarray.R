@@ -35,10 +35,14 @@ qn.pcl.files <-
     file.path(single.acc.dir, 
               "E-GEOD-78193_submitter_processed_entrez_mean_QN.pcl"))
 
+dataset.names <- paste0("E-GEOD-", 
+                        sub(".*E-GEOD- *(.*?) *_.*", "\\1", qn.pcl.files))
+
 PCAWrapper(list.of.pcl = qn.pcl.files,
            UPC.arg = FALSE,
            png.file.lead = file.path(plot.dir, 
-                                     "SLE_WB_all_microarray_QN_PC1-5"))
+                                     "SLE_WB_all_microarray_QN_PC1-5"),
+           dataset.labels = dataset.names)
 
 #### without QN ----------------------------------------------------------------
 
@@ -58,10 +62,14 @@ pcl.files <-
     file.path(single.acc.dir, 
               "E-GEOD-78193_submitter_processed_entrez_mean.pcl"))
 
+dataset.names <- paste0("E-GEOD-", 
+                        sub(".*E-GEOD- *(.*?) *_.*", "\\1", pcl.files))
+
 PCAWrapper(list.of.pcl = pcl.files,
            UPC.arg = FALSE,
            png.file.lead = file.path(plot.dir, 
-                                     "SLE_WB_all_microarray_without_QN_PC1-5"))
+                                     "SLE_WB_all_microarray_without_QN_PC1-5"),
+           dataset.labels = dataset.names)
 
 #### make own color key --------------------------------------------------------
 
