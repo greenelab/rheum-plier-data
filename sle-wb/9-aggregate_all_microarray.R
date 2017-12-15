@@ -68,10 +68,12 @@ combined.datasets <- CombineDatasets(list.of.pcl.files = qn.pcl.files,
 # write [0,1] scaling after concatenation expression matrix to file
 WriteExprsMat2PCL(exprs.mat = combined.datasets$expression.matrices$zto.after,
                   pcl.filename = file.path(agg.dir,
-                                           "SLE_WB_all_microarray_QN_zto_after.PCL"))
+                                           paste0("SLE_WB_all_microarray_QN", 
+                                           "_zto_after.pcl")))
 
 # write [0,1] scaling before concatenation expression matrix to file
 # write [0,1] scaling after concatenation expression matrix to file
 WriteExprsMat2PCL(exprs.mat = combined.datasets$expression.matrices$zto.before,
                   pcl.filename = file.path(agg.dir,
-                                           "SLE_WB_all_microarray_QN_zto_before.PCL"))
+                                           paste0("SLE_WB_all_microarray_QN", 
+                                                  "_zto_before.pcl")))
