@@ -28,21 +28,28 @@ plus2.files <- list.files(processed.dir,
                           pattern = "hgu133plus2", 
                           full.names = TRUE)
 
+dataset.names <- unique(paste0("E-GEOD-", 
+                               sub(".*E-GEOD- *(.*?) *_.*", "\\1", 
+                                   plus2.files)))
+
 # RMA normalized data
 RMA.files <- plus2.files[grep("_RMA.pcl", plus2.files)]
 PCAWrapper(list.of.pcl = RMA.files,
            UPC.arg = FALSE,
-           png.file.lead = file.path(plot.dir, "HGU133PLUS2_RMA_PC1-5_pairs"))
+           png.file.lead = file.path(plot.dir, "HGU133PLUS2_RMA_PC1-5_pairs"),
+           dataset.labels = dataset.names)
 
 # SCAN normalized data
 SCAN.files <- plus2.files[grep("_SCAN.pcl", plus2.files)]
 PCAWrapper(list.of.pcl = SCAN.files,
            UPC.arg = FALSE,
-           png.file.lead = file.path(plot.dir, "HGU133PLUS2_SCAN_PC1-5_pairs"))
+           png.file.lead = file.path(plot.dir, "HGU133PLUS2_SCAN_PC1-5_pairs"),
+           dataset.labels = dataset.names)
 
 # SCANfast normalized data
 SCANfast.files <- plus2.files[grep("_SCANfast.pcl", plus2.files)]
 PCAWrapper(list.of.pcl = SCANfast.files,
            UPC.arg = FALSE,
            png.file.lead = file.path(plot.dir, 
-                                     "HGU133PLUS2_SCANfast_PC1-5_pairs"))
+                                     "HGU133PLUS2_SCANfast_PC1-5_pairs"),
+           dataset.labels = dataset.names)
