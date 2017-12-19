@@ -1,6 +1,6 @@
 # J. Taroni 2017
 # 
-# This processing script quantile normalizes submitter processed  microarray 
+# This processing script quantile normalizes submitter processed microarray 
 # data (E-GEOD-49454, E-GEOD-65391, and E-GEOD-78193) using SCANfast processed 
 # Affymetrix data as a reference.
 # 

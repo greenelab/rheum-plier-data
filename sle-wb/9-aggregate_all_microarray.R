@@ -19,7 +19,7 @@ agg.dir <- file.path("sle-wb", "processed", "aggregated_data")
 
 WriteExprsMat2PCL <- function(exprs.mat, pcl.filename) {
   # This function takes a matrix of expression data where rows are genes,
-  # columns are sample, and the rownames are gene ids and writes this to
+  # columns are samples, and the rownames are gene ids and writes this to
   # a PCL file where the first column contains the gene identifiers.
   # 
   # Args:
@@ -66,14 +66,13 @@ combined.datasets <- CombineDatasets(list.of.pcl.files = qn.pcl.files,
                                      UPC = FALSE)
 
 # write [0,1] scaling after concatenation expression matrix to file
+after.filename <- file.path(agg.dir, 
+                            "SLE_WB_all_microarray_QN_zto_after.pcl")
 WriteExprsMat2PCL(exprs.mat = combined.datasets$expression.matrices$zto.after,
-                  pcl.filename = file.path(agg.dir,
-                                           paste0("SLE_WB_all_microarray_QN", 
-                                           "_zto_after.pcl")))
+                  pcl.filename = after.filename)
 
 # write [0,1] scaling before concatenation expression matrix to file
-# write [0,1] scaling after concatenation expression matrix to file
+before.filename <- file.path(agg.dir, 
+                             "SLE_WB_all_microarray_QN_zto_before.pcl")
 WriteExprsMat2PCL(exprs.mat = combined.datasets$expression.matrices$zto.before,
-                  pcl.filename = file.path(agg.dir,
-                                           paste0("SLE_WB_all_microarray_QN", 
-                                                  "_zto_before.pcl")))
+                  pcl.filename = before.filename)
