@@ -1,14 +1,17 @@
 # A systemic lupus erythematosus whole blood compendium
 
-Systemic lupus erythematosus (SLE) is an autoimmune disease that affects multiple organs. Unlike some other conditions that fall under the rheumatic/autoimmune disease umbrella, SLE is not a rare disease and there are multiple gene expression studies (and/or cohorts) of SLE that are publicly available.
+Systemic lupus erythematosus (SLE) is an autoimmune disease that affects multiple organs. 
+Unlike some other conditions that fall under the rheumatic/autoimmune disease umbrella, SLE is not a rare disease and there are multiple gene expression studies (and/or cohorts) of SLE that are publicly available.
 
-Herein, we choose to study SLE whole blood (WB) samples because methods around analyzing these data, including [modular transcriptional analysis](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118927/), are mature. This tissue—a mixture of adaptive and innate immune cells—is also highly relevant to this condition and allows us to explore whether or not we can capture or retain cell type-specific expression patterns in our processed data.
+Herein, we choose to study SLE whole blood (WB) samples because methods around analyzing these data, including [modular transcriptional analysis](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118927/), are mature. 
+This tissue—a mixture of adaptive and innate immune cells—is also highly relevant to this condition and allows us to explore whether or not we can capture or retain cell type-specific expression patterns in our processed data.
 
 In this repository, we compare several normalization and processing methods for the purpose of integrating 7 microarray datasets into a "harmonized" compendium for further analyses. 
 
 ### Pipeline
 
-To follow our SLE WB pipeline, run the numbered R scripts in this directory (`sle-wb`) from the top directory of this repository sequentially. For example, the first step of our pipeline can be run from the top directory with the following command:
+To follow our SLE WB pipeline, run the numbered R scripts in this directory (`sle-wb`) from the top directory of this repository sequentially. 
+For example, the first step of our pipeline can be run from the top directory with the following command:
 
 ```shell
 Rscript sle-wb/1-process_affy_data.R
@@ -34,19 +37,24 @@ These selected data sets are somewhat representative of the large body of public
 
 ## Correlation between normalization methods
 
-First, we compare methods for normalizing Affymetrix arrays: [Robust Multiarray Average (`RMA`)](https://doi.org/10.1093/biostatistics/4.2.249), [Single Channel Array Normalization (`SCAN`)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3508193/) and its "fast" counterpart (`SCANfast`), and find that they are generally well correlated. (See [`sle-wb/plots/norm_method_correlation`](https://github.com/greenelab/rheum-plier-data/tree/master/sle-wb/plots/norm_method_correlation) for the full output of this analysis.)
+First, we compare methods for normalizing Affymetrix arrays: [Robust Multiarray Average (`RMA`)](https://doi.org/10.1093/biostatistics/4.2.249), [Single Channel Array Normalization (`SCAN`)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3508193/) and its "fast" counterpart (`SCANfast`), and find that they are generally well correlated. 
+(See [`sle-wb/plots/norm_method_correlation`](https://github.com/greenelab/rheum-plier-data/tree/master/sle-wb/plots/norm_method_correlation) for the full output of this analysis.)
 
 ![](https://github.com/greenelab/rheum-plier-data/raw/master/sle-wb/plots/norm_method_correlation/SLE-WB_affy_norm_correlation_hgu133plus2_RMA_v_SCAN.png)
 
-We're interested in normalizing single samples (`SCAN`/`SCANfast`), rather than batches of multiple samples (`RMA`), because that removes any influence of the other samples processed jointly on the single sample's output. This is particularly attractive when thinking about assembling [a large, consistently updated compendium](http://www.ccdatalab.org/blog/data-refinery-one/) of gene expression samples. As noted in the [`SCAN.UPC` documentation](http://www.bioconductor.org/packages/release/bioc/vignettes/SCAN.UPC/inst/doc/SCAN.vignette.pdf#section.5), the output values from `SCAN` and `SCANfast` are highly correlated.
+We're interested in normalizing single samples (`SCAN`/`SCANfast`), rather than batches of multiple samples (`RMA`), because that removes any influence of the other samples processed jointly on the single sample's output. 
+This is particularly attractive when thinking about assembling [a large, consistently updated compendium](http://www.ccdatalab.org/blog/data-refinery-one/) of gene expression samples. 
+As noted in the [`SCAN.UPC` documentation](http://www.bioconductor.org/packages/release/bioc/vignettes/SCAN.UPC/inst/doc/SCAN.vignette.pdf#section.5), the output values from `SCAN` and `SCANfast` are highly correlated.
 
 ## Platform and/or batch effect
 
 ### Within platform
 
-First, we'll look only at datasets from the Affymetrix hgu133plus2 platform (E-GEOD-39088, E-GEOD-61635, E-GEOD-72747). It's worth noting here that E-GEOD-39088 and E-GEOD-72747 are both studies of IFN-alpha kinoid (IFN-K), a therapeutic vaccine. 
+First, we'll look only at datasets from the Affymetrix hgu133plus2 platform (E-GEOD-39088, E-GEOD-61635, E-GEOD-72747). 
+It's worth noting here that E-GEOD-39088 and E-GEOD-72747 are both studies of IFN-alpha kinoid (IFN-K), a therapeutic vaccine. 
 
-If we look just at normalization (no scaling), there is [separation between the datasets in the first two principal components when normalized with `RMA`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.png) ([cum. var. exp. = 0.779](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.tsv)).* When `SCANfast` is used as the normalization method, this [dataset-specific effect is less evident after PC1](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.png) ([cum. var. explain = 0.563](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.tsv)) and the two IFN-K datasets group together.
+If we look just at normalization (no scaling), there is [clear separation between the datasets in PC1 and PC3 when normalized with `RMA`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.png) ([cum. var. exp. (PC1-3) = 0.779](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.tsv)).* 
+When `SCANfast` is used as the normalization method, this [dataset-specific effect is less evident after PC1](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.png) ([var. exp. (PC1) = 0.563](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.tsv)) and the two IFN-K datasets group together.
 
 As demonstrated below, [0, 1] scaling before combining experiments reduces this dataset-specific effect regardless of the normalization method used.
 
@@ -80,7 +88,10 @@ Because of its single-sample processing capability and compute time consideratio
 
 ### Between platforms
 
-Once all Affymetrix data is normalized with `SCANfast`, we still must address the submitter-processed data from the Agilent and Illumina platforms. Here, we've chosen to quantile normalize Agilent and Illumina data using the quantiles from the aggregated Affymetrix data. (See [`7-quantile_normalize_microarray`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/7-quantile_normalize_microarray.R) and [`5-aggregate_all_affy_data.R`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/5-aggregate_all_affy_data.R) for the quantile normalization and Affymetrix aggregation, respectively.) Quantile normalization (QN) followed by scaling reduces the dataset/platform-specific effect, as shown below.
+Once all Affymetrix data is normalized with `SCANfast`, we still must address the submitter-processed data from the Agilent and Illumina platforms.
+Here, we've chosen to quantile normalize Agilent and Illumina data using the quantiles from the aggregated Affymetrix data.
+(See [`7-quantile_normalize_microarray`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/7-quantile_normalize_microarray.R) and [`5-aggregate_all_affy_data.R`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/5-aggregate_all_affy_data.R) for the quantile normalization and Affymetrix aggregation, respectively.) 
+Quantile normalization (QN) followed by scaling reduces the dataset/platform-specific effect, as shown below.
 
 #### Without QN, no scaling
 
