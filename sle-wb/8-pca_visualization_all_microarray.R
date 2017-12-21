@@ -17,6 +17,9 @@ source(file.path("util", "aggregate_norm_other_platforms.R"))
 single.acc.dir <- file.path("sle-wb", "processed", "single_accession")
 plot.dir <- file.path("sle-wb", "plots", "PCA")
 
+plot.color.pal <- c("#54FF9F", "#43CD80", "#2E8B57", "#006400", "#FF8C00",
+                    "#8B4500", "#000080")
+
 #### with QN -------------------------------------------------------------------
 
 qn.pcl.files <- 
@@ -42,7 +45,8 @@ PCAWrapper(list.of.pcl = qn.pcl.files,
            UPC.arg = FALSE,
            png.file.lead = file.path(plot.dir, 
                                      "SLE_WB_all_microarray_QN_PC1-5"),
-           dataset.labels = dataset.names)
+           dataset.labels = dataset.names,
+           color.pal = plot.color.pal)
 
 #### without QN ----------------------------------------------------------------
 
@@ -69,16 +73,10 @@ PCAWrapper(list.of.pcl = pcl.files,
            UPC.arg = FALSE,
            png.file.lead = file.path(plot.dir, 
                                      "SLE_WB_all_microarray_without_QN_PC1-5"),
-           dataset.labels = dataset.names)
+           dataset.labels = dataset.names,
+           color.pal = plot.color.pal)
 
 #### make own color key --------------------------------------------------------
-
-# colorblind friendly palette
-cb.palette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", 
-                "#0072B2", "#D55E00", "#CC79A7")[1:length(pcl.files)]
-
-# get just the ArrayExpress accession number
-dataset.names <- gsub("_.*", "", gsub(".*/", "", pcl.files))
 
 # get matrix to use as palette
 palette.mat <- matrix(rep(1:length(dataset.names), 2), 
@@ -88,6 +86,6 @@ rownames(palette.mat) <- dataset.names
 
 # use heatmap.2 to make key
 png(file.path(plot.dir, "viz_all_microarray_colorkey.png"))
-gplots::heatmap.2(palette.mat, Rowv = NA, Colv = NA, col = cb.palette,
+gplots::heatmap.2(palette.mat, Rowv = NA, Colv = NA, col = plot.color.pal,
                   key = FALSE, trace = "none", margins = c(1, 10))
 dev.off()

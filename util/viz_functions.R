@@ -1,7 +1,7 @@
 # J. Taroni 2017
 
 PlotPCA <- function(exprs.mat, group.vector, png.filename, 
-                    legend.labels, pcs.to.viz = 1:5) {
+                    legend.labels, usr.palette = NULL, pcs.to.viz = 1:5) {
   # This function takes an expression matrix, information regarding the
   # dataset of origin for each array (group.vector), and a .png filename and
   # outputs a "pairs" plot of Principal Components specified with
@@ -16,6 +16,7 @@ PlotPCA <- function(exprs.mat, group.vector, png.filename,
   #   png.filename: filename for .png output (including path information)
   #   legend.labels: a character vector of the labels to be used in the pairs
   #                  plot legend
+  #   usr.palette: a user submitted color palette
   #   pcs.to.viz: a vector of integers specifying the PCs that should
   #               be visualized (1:5 by default)
   #   
@@ -24,20 +25,23 @@ PlotPCA <- function(exprs.mat, group.vector, png.filename,
   #          explained)
   #
   
-  # colorblind friendly palette
-  cb.palette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", 
-                  "#0072B2", "#D55E00", "#CC79A7")
+  # use colorblind friendly palette by "default" -- if there is no
+  # user supplied palette
+  if (is.null(usr.palette)) {
+    usr.palette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", 
+                     "#0072B2", "#D55E00", "#CC79A7")
+  }
   
   # perform PCA
   pc <- prcomp(t(exprs.mat))
   
   # save PNG of "paired" plot, specified PCs
   png(file = png.filename, width = 600, height = 480, units = "px")
-  pairs(pc$x[, pcs.to.viz], col = cb.palette[group.vector], 
+  pairs(pc$x[, pcs.to.viz], col = usr.palette[group.vector], 
         oma = c(4, 4, 6, 15))
   par(xpd = TRUE)
   legend(x = 0.825, y = 0.7, legend = legend.labels, 
-         fill = cb.palette[1:max(group.vector)], bty = "n")
+         fill = usr.palette[1:max(group.vector)], bty = "n")
   dev.off()
   
   # what is the cumulative variance explained by PCs?
@@ -53,7 +57,7 @@ PlotPCA <- function(exprs.mat, group.vector, png.filename,
 }
 
 PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead,
-                       dataset.labels, pcs.to.plot = 1:5) {
+                       dataset.labels, color.pal = NULL, pcs.to.plot = 1:5) {
   # A wrapper function for combining datasets and ultimately PCA plots -- 
   # motivated by the fact that multiple normalization methods will be under
   # consideration.
@@ -64,6 +68,7 @@ PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead,
   #   png.file.lead: .png "file lead" for PC pairs plot (includes path info)
   #   dataset.labels: a character vector of the dataset names to be used in 
   #                   the pairs plot legend
+  #   color.pal: color palette to be used for plot
   #   pcs.to.plot: a vector of integers specifying the PCs that should
   #                be visualized (1:5 by default)
   #   
@@ -88,6 +93,7 @@ PCAWrapper <- function(list.of.pcl, UPC.arg, png.file.lead,
             group.vector = combined.list$groups,
             png.filename = png.transform.file,
             legend.labels = dataset.labels,
+            usr.palette = color.pal,
             pcs.to.viz = pcs.to.plot)
     
   }
