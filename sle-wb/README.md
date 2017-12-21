@@ -53,7 +53,7 @@ As noted in the [`SCAN.UPC` documentation](http://www.bioconductor.org/packages/
 First, we'll look only at datasets from the Affymetrix hgu133plus2 platform (E-GEOD-39088, E-GEOD-61635, E-GEOD-72747). 
 It's worth noting here that E-GEOD-39088 and E-GEOD-72747 are both studies of IFN-alpha kinoid (IFN-K), a therapeutic vaccine. 
 
-If we look just at normalization (no scaling), there is [clear separation between the datasets in PC1 and PC3 when normalized with `RMA`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.png) ([cum. var. exp. (PC1-3) = 0.779](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.tsv)).* 
+If we look just at normalization (no scaling), there is [clear separation between the datasets in PC1 and PC3 when normalized with `RMA`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.png) ([cum. var. exp. (PC1-3) = 0.818](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.tsv)).* 
 When `SCANfast` is used as the normalization method, this [dataset-specific effect is less evident after PC1](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.png) ([var. exp. (PC1) = 0.563](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.tsv)) and the two IFN-K datasets group together.
 
 As demonstrated below, [0, 1] scaling before combining experiments reduces this dataset-specific effect regardless of the normalization method used.
