@@ -30,7 +30,7 @@ We include the following datasets (retrieved from [ArrayExpress](https://www.ebi
 | [E-GEOD-49454](https://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-49454/) |        177         |  Illumina HumanHT-12 V4.0   |       N        | [Chiche, et al. _Arthritis Rheumatol._ 2014.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4157826/) |
 | [E-GEOD-78193](https://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-78193/) |        125         |        Agilent 4x44K        |       N        | [Welcher, et al. _Arthritis Rheumatol._ 2015.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5054935/) |
 
-These selected data sets are somewhat representative of the larger body of publicly available in a few ways: 1) the majority of assays are run on Affymetrix (for which raw data are typically available) and 2) some accessions only have submitter-processed data available on ArrayExpress (like E-GEOD-78193).
+These selected data sets are somewhat representative of the large body of publicly available in a few ways: 1) the majority of assays are run on Affymetrix arrays (for which raw data are typically available) and 2) some accessions only have submitter-processed data available on ArrayExpress (like E-GEOD-78193).
 
 ## Correlation between normalization methods
 
@@ -46,9 +46,9 @@ We're interested in normalizing single samples (`SCAN`/`SCANfast`), rather than 
 
 First, we'll look only at datasets from the Affymetrix hgu133plus2 platform (E-GEOD-39088, E-GEOD-61635, E-GEOD-72747). It's worth noting here that E-GEOD-39088 and E-GEOD-72747 are both studies of IFN-alpha kinoid (IFN-K), a therapeutic vaccine. 
 
-If we look just at normalization (no scaling), there is [separation between the datasets in the first two principal components when normalized with `RMA`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.png) ([cum. var. exp. = 0.779](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.tsv)). When `SCANfast` is used as the normalization method, this [dataset-specific effect is less evident after PC1](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.png) ([cum. var. explain = 0.563](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.tsv)) and the two IFN-K datasets group together.
+If we look just at normalization (no scaling), there is [separation between the datasets in the first two principal components when normalized with `RMA`](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.png) ([cum. var. exp. = 0.779](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_RMA_PC1-5_pairs_no.transform.tsv)).* When `SCANfast` is used as the normalization method, this [dataset-specific effect is less evident after PC1](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.png) ([cum. var. explain = 0.563](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/HGU133PLUS2_SCANfast_PC1-5_pairs_no.transform.tsv)) and the two IFN-K datasets group together.
 
-As demonstrated below, [0, 1] scaling before combining experiments reduces this dataset-specific effect regardless of normalization method.
+As demonstrated below, [0, 1] scaling before combining experiments reduces this dataset-specific effect regardless of the normalization method used.
 
 #### RMA, [0,1] scaling before concatenation
 
@@ -75,6 +75,8 @@ As demonstrated below, [0, 1] scaling before combining experiments reduces this 
 | PC5                 | 0.526                         |
 
 Because of its single-sample processing capability and compute time considerations, we chose to use `SCANfast` as our Affymetrix normalization method.
+
+ _*Note that each experiment was normalized separately; the results may change if RMA was applied across samples from all three datasets at once._
 
 ### Between platforms
 
