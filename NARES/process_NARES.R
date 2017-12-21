@@ -31,9 +31,15 @@ nares.data <- read.delim(file.path(processed.dir,
                                    "NARES_hugene10st_SCANfast.pcl"))
 rownames(nares.data) <- nares.data[, 1]
 
+# read in clinical data, output as .tsv
 demo.data <- readxl::read_xlsx(file.path("NARES",
                                          "Demographic info for NARES DNA.xlsx"))
+colnames(demo.data)[1] <- "Sample"
+readr::write_tsv(demo.data, 
+                 path = file.path("NARES", "NARES_demographic_data.tsv"))
 
+
+# expression data matrix
 exprs.mat <- as.matrix(dplyr::select(nares.data, -X))
 
 # need to get the names to match the demographic info file -- in format
@@ -60,8 +66,7 @@ pca.df <- cbind(rownames(pca.results$x),
 colnames(pca.df) <- c("Sample", "PC1", "PC2")
 
 # extract relevant demographic data
-rel.demo.df <- demo.data[, c("Gene", "Disease", "Batch", "Any_Immune")]
-colnames(rel.demo.df)[1] <- "Sample"
+rel.demo.df <- demo.data[, c("Sample", "Disease", "Batch", "Any_Immune")]
 
 # join
 pca.demo.df <- dplyr::full_join(rel.demo.df, pca.df, by = "Sample")
