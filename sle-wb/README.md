@@ -111,11 +111,11 @@ Quantile normalization (QN) followed by scaling reduces the dataset/platform-spe
 
 | principal component | cumulative variance explain |
 | ------------------- | --------------------------- |
-| PC1                 | 0.415                       |
-| PC2                 | 0.574                       |
-| PC3                 | 0.662                       |
-| PC4                 | 0.730                       |
-| PC5                 | 0.769                       |
+| PC1                 | 0.279                       |
+| PC2                 | 0.375                       |
+| PC3                 | 0.439                       |
+| PC4                 | 0.479                       |
+| PC5                 | 0.502                       |
 
 (Note: [QN alone groups datasets by platform](https://github.com/greenelab/rheum-plier-data/blob/master/sle-wb/plots/PCA/SLE_WB_all_microarray_QN_PC1-5_no.transform.png), as is expected.)
 
