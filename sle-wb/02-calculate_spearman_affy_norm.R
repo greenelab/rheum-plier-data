@@ -87,6 +87,8 @@ CompareSamplesPlotWrapper <- function(processed.dir, png.lead,
                              function(f) sub(".*\\_", "", 
                                              sub("_([^_]*)$", "", f))))
   
+  platforms <- platforms[grepl("hgu", platforms)]
+  
   # for each platform
   for (plt in platforms) {
     

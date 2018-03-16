@@ -38,3 +38,5 @@ recount.all.data.plier.RData
 
 # Ignore hidden metadata files
 ._*
+
+Rplots\.pdf
