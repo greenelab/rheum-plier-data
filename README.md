@@ -40,6 +40,19 @@ Citations:
 
 See [`sle-wb`](https://github.com/greenelab/rheum-plier-data/tree/master/sle-wb) for more information (including citations).
 
+## Docker
+
+All the dependences for this processing pipeline are included on a [Docker image](https://hub.docker.com/r/jtaroni/multi-plier/). 
+This can be obtained by [installing Docker](https://docs.docker.com/install/) and pulling the `v1` tagged image from Dockerhub:
+
+```
+docker pull jtaroni/multi-plier:v1
+```
+
+For the Dockerfile and a list of user-installed R packages, see [`docker/`](https://github.com/greenelab/rheum-plier-data/tree/master/docker).
+
+The R scripts in [`isolated-cell-pop`](https://github.com/greenelab/rheum-plier-data/blob/28a124949234ab65e7d7f01cf88431702f958205/isolated-cell-pop/process_E-MTAB-2452.R), [`NARES`](https://github.com/greenelab/rheum-plier-data/blob/28a124949234ab65e7d7f01cf88431702f958205/NARES/process_NARES.R), and the [`sle-wb`](https://github.com/greenelab/rheum-plier-data/tree/28a124949234ab65e7d7f01cf88431702f958205/sle-wb) pipeline were run in the `jtaroni/multi-plier:v1` container as of [`28a1249`](https://github.com/greenelab/rheum-plier-data/commit/28a124949234ab65e7d7f01cf88431702f958205).
+
 ## License 
 
 This repository is dual licensed as [BSD 3-Clause](https://github.com/greenelab/rheum-plier-data/blob/master/LICENSE_BSD-3.md) (source code) and [CC0 1.0](https://github.com/greenelab/rheum-plier-data/blob/master/LICENSE_CC0.md) (figures, documentation, and our arrangement of the facts contained in the underlying data).
