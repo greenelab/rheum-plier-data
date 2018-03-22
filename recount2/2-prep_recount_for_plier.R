@@ -39,7 +39,7 @@ rownames(rpkm) <- make.names(rpkm$hgnc_symbol, unique = TRUE)
 rpkm <- rpkm[, -ncol(rpkm)]
 
 # Remove redundant ensembl_gene_id and gene_id and last column "by"
-rpkm <- rpkm[, -1*c(1, 2, ncol(rpkm))]
+rpkm <- rpkm[, -1*c(1, 2)]
 
 # PLIER prior information (pathways)
 allPaths <- combinePaths(bloodCellMarkersIRISDMAP, svmMarkers,

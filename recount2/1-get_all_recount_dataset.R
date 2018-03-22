@@ -7,6 +7,7 @@
 # Output: 
 # Normalized gene expression for each sample
 
+`%>%` <- dplyr::`%>%`
 library(recount)
 
 # Get RPKM value for each gene - adapted from recount package
@@ -67,11 +68,10 @@ for(experiment in included.sample.list) {
 # combine experiments -- this is the most memory efficient way to go about this
 # that I've found -- will need to drop extraneous gene id columns
 rpkm.df <- do.call(base::cbind, c(rpkm.list, by = "id"))
-id.cols <- grep("id", colnames(rpkm.df))
-rpkm.df <- rpkm.df[, -id.cols[2:length(id.cols)]]
-rpkm.df <- rpkm.df[, c(id.cols[1], 1:(id.cols[1] - 1),
-                       (id.cols[1] + 1):ncol(rpkm.df))]
-colnames(rpkm.df)[1] <- "ENSG"
+rpkm.df <- rpkm.df %>% dplyr::select(-dplyr::ends_with("id"))
+rpkm.df <- tibble::rownames_to_column(rpkm.df, "ENSG")
+# drop last column "by" -- information about what was used with base::cbind
+rpkm.df <- rpkm.df %>% dplyr::select(-by)
 
 # save to file
 saveRDS(rpkm.df, file = file.path("recount2", "recount_rpkm.RDS"))
