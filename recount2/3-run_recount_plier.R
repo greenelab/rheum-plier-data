@@ -9,7 +9,7 @@ set.seed(12345)
 
 # read in data
 plier.data.list <- readRDS(file = file.path("recount2",
-                                           	"recount_data_prep_PLIER.RDS"))
+                                            "recount_data_prep_PLIER.RDS"))
 # run PLIER
 plierResult <- PLIER(as.matrix(plier.data.list$rpkm.cm), 
                      plier.data.list$all.paths.cm,
