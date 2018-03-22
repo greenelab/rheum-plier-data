@@ -10,10 +10,11 @@ set.seed(12345)
 # read in data
 plier.data.list <- readRDS(file = file.path("recount2",
                                             "recount_data_prep_PLIER.RDS"))
+num.pc <- plier.data.list$k
+
 # run PLIER
 plierResult <- PLIER(as.matrix(plier.data.list$rpkm.cm), 
                      plier.data.list$all.paths.cm,
-                     k = round((plier.data.list$k + plier.data.list$k * 0.3), 
-                               0), 
+                     k = round((num.pc + num.pc * 0.3), 0), 
                      trace = TRUE)
 saveRDS(plierResult, file = file.path("recount2", "recount_PLIER_model.RDS"))
