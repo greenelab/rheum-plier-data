@@ -13,8 +13,8 @@ plier.data.list <- readRDS(file = file.path("recount2",
 num.pc <- plier.data.list$k
 
 # run PLIER
-plierResult <- PLIER(as.matrix(plier.data.list$rpkm.cm), 
-                     plier.data.list$all.paths.cm,
-                     k = round((num.pc + num.pc * 0.3), 0), 
-                     trace = TRUE)
+plierResult <- PLIER::PLIER(as.matrix(plier.data.list$rpkm.cm), 
+                            plier.data.list$all.paths.cm,
+                            k = round((num.pc + num.pc * 0.3), 0), 
+                            trace = TRUE)
 saveRDS(plierResult, file = file.path("recount2", "recount_PLIER_model.RDS"))
