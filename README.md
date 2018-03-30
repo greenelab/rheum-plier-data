@@ -13,7 +13,8 @@ For more information on our data processing strategy, see [`sle-wb/README.md`](h
 
 Within this repository, we obtain recount2 data through the [`recount` bioconductor package](http://bioconductor.org/packages/release/bioc/html/recount.html), further process it, and apply [`PLIER`](https://github.com/wgmao/PLIER).
 
-The recount2 data and results are too large to be stored with Git LFS, so we have placed them on [figshare](https://figshare.com/). **DOI: [10.6084/m9.figshare.5716033.v4](https://doi.org/10.6084/m9.figshare.5716033.v4)**. This version is current as of [`978c379`](https://github.com/greenelab/rheum-plier-data/commit/978c37938383ff7adcadacfcbc35931ce5e62b17).
+The recount2 data and results are too large to be stored with Git LFS, so we have placed them on [figshare](https://figshare.com/). **DOI: [10.6084/m9.figshare.5716033.v4](https://doi.org/10.6084/m9.figshare.5716033.v4)**. 
+This version is current as of [`978c379`](https://github.com/greenelab/rheum-plier-data/commit/978c37938383ff7adcadacfcbc35931ce5e62b17).
 
 
 Citations:
