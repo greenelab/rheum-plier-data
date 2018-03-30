@@ -13,9 +13,9 @@ For more information on our data processing strategy, see [`sle-wb/README.md`](h
 
 Within this repository, we obtain recount2 data through the [`recount` bioconductor package](http://bioconductor.org/packages/release/bioc/html/recount.html), further process it, and apply [`PLIER`](https://github.com/wgmao/PLIER).
 
-The recount2 data and results are too large to be stored with Git LFS, so we have placed them on [figshare](https://figshare.com/). 
-1. [Output](https://doi.org/10.6084/m9.figshare.5716033.v1) from [`recount2/get.all.recount.dataset.R`](https://github.com/greenelab/rheum-plier-data/blob/ee962291521bbe88ae8b92fddddfb9e7ab3ee667/recount2/get.all.recount.dataset.R)
-2. [Output](https://doi.org/10.6084/m9.figshare.5712124.v3) from [`recount2/recount.plier.R`](https://github.com/greenelab/rheum-plier-data/blob/ee962291521bbe88ae8b92fddddfb9e7ab3ee667/recount2/recount.plier.R)
+The recount2 data and results are too large to be stored with Git LFS, so we have placed them on [figshare](https://figshare.com/). **DOI: [10.6084/m9.figshare.5716033.v4](https://doi.org/10.6084/m9.figshare.5716033.v4)**. 
+This version is current as of [`978c379`](https://github.com/greenelab/rheum-plier-data/commit/978c37938383ff7adcadacfcbc35931ce5e62b17).
+
 
 Citations:
 
@@ -43,15 +43,31 @@ See [`sle-wb`](https://github.com/greenelab/rheum-plier-data/tree/master/sle-wb)
 ## Docker
 
 All the dependences for this processing pipeline are included on a [Docker image](https://hub.docker.com/r/jtaroni/multi-plier/). 
-This can be obtained by [installing Docker](https://docs.docker.com/install/) and pulling the `v1` tagged image from Dockerhub:
+This can be obtained by [installing Docker](https://docs.docker.com/install/) and pulling the appropriate tagged images from Dockerhub:
+
+### Microarray data processing
+
+The Docker image used for microarray data processing is tagged `v1`.
 
 ```
 docker pull jtaroni/multi-plier:v1
 ```
 
-For the Dockerfile and a list of user-installed R packages, see [`docker/`](https://github.com/greenelab/rheum-plier-data/tree/master/docker).
+For the Dockerfile and a list of user-installed R packages, see [`docker/v1`](https://github.com/greenelab/rheum-plier-data/tree/master/docker/v1).
 
 The R scripts in [`isolated-cell-pop`](https://github.com/greenelab/rheum-plier-data/blob/28a124949234ab65e7d7f01cf88431702f958205/isolated-cell-pop/process_E-MTAB-2452.R), [`NARES`](https://github.com/greenelab/rheum-plier-data/blob/28a124949234ab65e7d7f01cf88431702f958205/NARES/process_NARES.R), and the [`sle-wb`](https://github.com/greenelab/rheum-plier-data/tree/28a124949234ab65e7d7f01cf88431702f958205/sle-wb) pipeline were run in the `jtaroni/multi-plier:v1` container as of [`28a1249`](https://github.com/greenelab/rheum-plier-data/commit/28a124949234ab65e7d7f01cf88431702f958205).
+
+### recount2 data processing
+
+The Docker image used for microarray data processing is tagged `recount`.
+
+```
+docker pull jtaroni/multi-plier:recount
+```
+
+For the Dockerfile and a list of user-installed R packages, see [`docker/recount`](https://github.com/greenelab/rheum-plier-data/tree/978c37938383ff7adcadacfcbc35931ce5e62b17/docker/recount).
+
+The Rscripts in [`recount2/`](https://github.com/greenelab/rheum-plier-data/tree/978c37938383ff7adcadacfcbc35931ce5e62b17/recount2) were run in the `jtaroni/multi-plier:recount` container as of [`978c379`](https://github.com/greenelab/rheum-plier-data/commit/978c37938383ff7adcadacfcbc35931ce5e62b17).
 
 ## License 
 
