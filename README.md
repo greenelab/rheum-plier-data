@@ -40,6 +40,14 @@ Citations:
 
 See [`sle-wb`](https://github.com/greenelab/rheum-plier-data/tree/master/sle-wb) for more information (including citations).
 
+### Low density granulocytes
+
+[`GSE26975`](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE26975) is a dataset that includes the following isolated cell type populations: healthy neutrophils, normal density neutrophils from patients with lupus, and low density granulocytes (LDGs) from patients with lupus.
+
+Citation:
+
+> Villanueva E, Yalavarthi S, Berthier CC, Hodgin JB et al. [Netting neutrophils induce endothelial damage, infiltrate tissues, and expose immunostimulatory molecules in systemic lupus erythematosus.](https://doi.org/10.4049/jimmunol.1100450) _J Immunol._ 2011. doi: 10.4049/jimmunol.1100450
+
 ## Docker
 
 All the dependences for this processing pipeline are included on a [Docker image](https://hub.docker.com/r/jtaroni/multi-plier/). 
