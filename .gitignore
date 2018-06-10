@@ -63,3 +63,5 @@ rituximab/Homo_sapiens.GRCh38.92.gtf
 rituximab/Homo_sapiens.GRCh38.92.sqlite
 
 rituximab/sample_list.txt
+rituximab/tximport.RDS
+

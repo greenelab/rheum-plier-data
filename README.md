@@ -77,6 +77,26 @@ For the Dockerfile and a list of user-installed R packages, see [`docker/recount
 
 The Rscripts in [`recount2/`](https://github.com/greenelab/rheum-plier-data/tree/978c37938383ff7adcadacfcbc35931ce5e62b17/recount2) were run in the `jtaroni/multi-plier:recount` container as of [`978c379`](https://github.com/greenelab/rheum-plier-data/commit/978c37938383ff7adcadacfcbc35931ce5e62b17).
 
+### RNA-seq
+
+We use Salmon and tximport for our RNA-seq processing pipeline.
+
+#### Salmon
+
+The Docker image used for building a Salmon index and quantification with Salmon:
+
+```
+docker pull combinelab/salmon:0.9.1
+```
+
+#### tximport
+
+Following quantification with Salmon, we summarize to the gene-level using tximport in the following Docker image (`docker/summarize_tx/Dockerfile`):
+
+```
+docker pull jtaroni/summarize_tx:3.4.3
+```
+
 ## License 
 
 This repository is dual licensed as [BSD 3-Clause](https://github.com/greenelab/rheum-plier-data/blob/master/LICENSE_BSD-3.md) (source code) and [CC0 1.0](https://github.com/greenelab/rheum-plier-data/blob/master/LICENSE_CC0.md) (figures, documentation, and our arrangement of the facts contained in the underlying data).
