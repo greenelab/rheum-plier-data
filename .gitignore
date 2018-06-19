@@ -43,3 +43,25 @@ recount2/recount_PLIER_model.RDS
 ._*
 
 Rplots\.pdf
+
+## Files related to RNA-seq processing
+
+# ignore raw data
+rituximab/fastq/
+
+# transcripts fasta
+rituximab/hsapiens.fa.gz
+
+# transcriptome index itself
+rituximab/transcriptome_index
+
+# the output of salmon quant
+rituximab/quants/
+
+# H sapiens GTF & ensembldb derivative
+rituximab/Homo_sapiens.GRCh38.92.gtf
+rituximab/Homo_sapiens.GRCh38.92.sqlite
+
+rituximab/sample_list.txt
+rituximab/tximport.RDS
+
