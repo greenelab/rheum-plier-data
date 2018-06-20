@@ -62,6 +62,9 @@ rituximab/quants/
 rituximab/Homo_sapiens.GRCh38.92.gtf
 rituximab/Homo_sapiens.GRCh38.92.sqlite
 
+# rituximab files
 rituximab/sample_list.txt
 rituximab/tximport.RDS
-
+rituximab/select_covariates.tsv
+rituximab/VST_design.pcl
+rituximab/VST_blind.pcl
