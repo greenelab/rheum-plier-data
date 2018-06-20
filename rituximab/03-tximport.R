@@ -1,5 +1,6 @@
 # J. Taroni 2018
 # Summarize data to the gene-level with tximport
+# USAGE (from rituximab/): Rscript 03-tximport.R
 
 library(ensembldb)
 
