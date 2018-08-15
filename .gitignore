@@ -68,3 +68,6 @@ rituximab/tximport.RDS
 rituximab/select_covariates.tsv
 rituximab/VST_design.pcl
 rituximab/VST_blind.pcl
+
+# glomeruli clinical data before cleaning
+glomeruli/Neptune_ERCB_GE_Clinical_Data_2016-08-24_15-11-58-1.txt
