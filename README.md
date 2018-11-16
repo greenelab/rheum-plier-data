@@ -55,7 +55,8 @@ Two datasets:
 * [GSE50021](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50021)
 
 Citations:
-> Paugh BS, Broniscer A, Qu C, et al. [Genome-wide analyses identify recurrent amplifications of receptor tyrosine kinases and cell-cycle regulatory genes in diffuse intrinsic pontine glioma.](https://dx.doi.org/10.1200/JCO.2011.35.5677) _J Clin Oncol._ 2011;29(30):3999-4006. 
+> Paugh BS, Broniscer A, Qu C, et al. [Genome-wide analyses identify recurrent amplifications of receptor tyrosine kinases and cell-cycle regulatory genes in diffuse intrinsic pontine glioma.](https://dx.doi.org/10.1200/JCO.2011.35.5677) _J Clin Oncol._ 2011;29(30):3999-4006.
+
 > Buczkowicz P, Hoeman C, Rakopoulos P, et al. [Genomic analysis of diffuse intrinsic pontine gliomas identifies three molecular subgroups and recurrent activating _ACVR1_ mutations.](https://dx.doi.org/10.1038/ng.2936) _Nat Genet._ 2014;46(5):451-6. 
 
 ### Medulloblastoma
