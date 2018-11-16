@@ -48,6 +48,23 @@ Citation:
 
 > Villanueva E, Yalavarthi S, Berthier CC, Hodgin JB et al. [Netting neutrophils induce endothelial damage, infiltrate tissues, and expose immunostimulatory molecules in systemic lupus erythematosus.](https://doi.org/10.4049/jimmunol.1100450) _J Immunol._ 2011. doi: 10.4049/jimmunol.1100450
 
+### Diffuse intrinsic pontine glioma (DIPG)
+
+Two datasets:
+* [E-GEOD-26576](https://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-26576/)
+* [GSE50021](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50021)
+
+Citations:
+> Paugh BS, Broniscer A, Qu C, et al. [Genome-wide analyses identify recurrent amplifications of receptor tyrosine kinases and cell-cycle regulatory genes in diffuse intrinsic pontine glioma.](https://dx.doi.org/10.1200/JCO.2011.35.5677) _J Clin Oncol._ 2011;29(30):3999-4006. 
+> Buczkowicz P, Hoeman C, Rakopoulos P, et al. [Genomic analysis of diffuse intrinsic pontine gliomas identifies three molecular subgroups and recurrent activating _ACVR1_ mutations.](https://dx.doi.org/10.1038/ng.2936) _Nat Genet._ 2014;46(5):451-6. 
+
+### Medulloblastoma
+
+[GSE37382](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37382) is medulloblastoma data that was processed via refine.bio (using `SCANfast`).
+
+Citation:
+> Northcott PA, Shih DJ, Peacock J, et al. [Subgroup-specific structural variation across 1,000 medulloblastoma genomes.](https://dx.doi.org/10.1038/nature11327) _Nature._ 2012;488(7409):49-56. 
+
 ## Docker
 
 All the dependences for this processing pipeline are included on a [Docker image](https://hub.docker.com/r/jtaroni/multi-plier/). 
