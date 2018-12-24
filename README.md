@@ -61,7 +61,7 @@ Citations:
 
 ### Medulloblastoma
 
-[GSE37382](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37382) and [GSE37418](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37418) are medulloblastoma data that was processed via refine.bio (using `SCANfast`).
+[GSE37382](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37382) and [GSE37418](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE37418) are medulloblastoma data that were processed via refine.bio (using `SCANfast`).
 
 Citation:
 > Northcott PA, Shih DJ, Peacock J, et al. [Subgroup-specific structural variation across 1,000 medulloblastoma genomes.](https://dx.doi.org/10.1038/nature11327) _Nature._ 2012;488(7409):49-56. 
